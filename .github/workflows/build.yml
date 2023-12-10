@@ -1,0 +1,43 @@
+name: Build Binary image with GraalVM
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm' # or 'graalvm-community' or 'mandrel'
+          components: 'native-image'
+          cache: maven
+          github-token: ${{ secrets.GH_TOKEN }}
+
+      - name: Display Java and Native Image versions
+        run: |
+          echo "GRAALVM_HOME: $GRAALVM_HOME"
+          echo "JAVA_HOME: $JAVA_HOME"
+          java --version
+          native-image --version
+
+      - name: mvn version
+        run: |
+          mvn -version
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests -Pmqtt-server-client
+
+      - name:  Upload package
+        uses: actions/upload-artifact@v3
+        with:
+          name: mica-mqtt-server-native-linx-x64
+          path: target/mqtt-server-graalvm

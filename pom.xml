@@ -87,7 +87,7 @@
       </build>
     </profile>
     <profile>
-      <id>mqtt-server-graal</id>
+      <id>mqtt-client-graal</id>
       <dependencies>
         <!-- GraalVM 环境使用 jdk log -->
         <dependency>
@@ -120,7 +120,7 @@
             </executions>
             <configuration>
               <skip>false</skip>
-              <imageName>mqtt-server-graalvm</imageName>
+              <imageName>mqtt-client-graalvm</imageName>
               <mainClass>${mainClass.client}</mainClass>
               <buildArgs>
                 -H:+RemoveSaturatedTypeFlows

@@ -39,5 +39,5 @@ jobs:
       - name:  Upload package
         uses: actions/upload-artifact@v3
         with:
-          name: mica-mqtt-server-native-linx-x64
-          path: target/mqtt-server-graalvm
+          name: mica-mqtt-client-native-linx-x64
+          path: target/mqtt-client-graalvm
